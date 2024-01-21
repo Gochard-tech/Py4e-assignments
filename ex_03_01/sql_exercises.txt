@@ -1,0 +1,44 @@
+
+-- Display all of the rows of the employees table, showing only the employees’ first and last names.
+
+SELECT first_name, last_name 
+FROM employees;
+
+-- Display all employees who were hired after August 1, 1999 (non-inclusive).
+  
+SELECT * 
+FROM employees
+WHERE hire_date >= 1999-08-01;
+
+-- In this database, two tables are of the same schema. Combine them using a Union operator.
+
+SELECT *
+FROM dept_emp
+UNION
+SELECT *
+FROM dept_manager;
+
+-- Display the identifier and different salaries of the employee who was born on this date:  '1964-01-31', using a join.
+
+SELECT s.emp_no, s.salary
+FROM salaries s
+JOIN employees e
+	ON s.emp_no = e.emp_no
+WHERE birth_date = 1964-01-31;
+
+-- Using the join operator, produce a table specifying the name(s) of the department(s) in which the employee associated with identifier 499902 has worked (the table must also contain the start and end dates of employment in each department, as well as the employee’s last name and first name).
+
+SELECT e.emp_no, e.first_name, e.last_name, d.dept_name, de.from_date, de.to_date
+FROM employees e
+JOIN dept_emp de
+	ON e.emp_no = de.emp_no
+JOIN departments d
+	ON d.dept_no = de.dept_no
+WHERE e.emp_no = 499902;    
+
+-- Using aggregation, find out how many people have the last name "Gewali" (the last name is provided in the last_name column of the "employees" table).
+
+SELECT last_name, COUNT(*)
+FROM employees
+GROUP BY last_name
+	HAVING last_name = 'Gewali';
